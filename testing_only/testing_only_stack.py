@@ -7,7 +7,7 @@ from aws_cdk import (
 )
 vpc_id = 'vpc-0c97bc64'
 security_grp = 'sg-0cd76560'
-version = "versiontwo"
+version = "versionone"
 class TestingOnlyStack(core.Stack):
 
     def __init__(self, scope: core.Construct, id: str, **kwargs) -> None:
@@ -27,10 +27,10 @@ class TestingOnlyStack(core.Stack):
             internet_facing=True, load_balancer_name= "myloadbalancer")
 
     # creating Target Group1
-        mytarget_group = elbv2.ApplicationTargetGroup(self, "targetGroup", port=80, targets=[], target_group_name="mytarget-group", vpc=vpc)
+        mytarget_group = elbv2.ApplicationTargetGroup(self, "targetGroup", port=80, target_group_name="mytarget-group", vpc=vpc)
 
     # creating target group 2
-        mytarget_group2 = elbv2.ApplicationTargetGroup(self, "targetGroup2", port=80, targets=[], target_group_name="mytarget-group2", vpc=vpc)
+        mytarget_group2 = elbv2.ApplicationTargetGroup(self, "targetGroup2", port=80, target_group_name="mytarget-group2", vpc=vpc)
         # adding a loadbalancer default listener
         listener = lb.add_listener("listener", port=80, default_target_groups=[mytarget_group])
 
