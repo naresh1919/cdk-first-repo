@@ -7,7 +7,7 @@ from aws_cdk import (
 )
 vpc_id = 'vpc-0c97bc64'
 security_grp = 'sg-0cd76560'
-version = "versionone"
+version = "versiontwo"
 class TestingOnlyStack(core.Stack):
 
     def __init__(self, scope: core.Construct, id: str, **kwargs) -> None:
