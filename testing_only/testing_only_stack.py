@@ -24,13 +24,17 @@ class TestingOnlyStack(core.Stack):
             self, "LB",
             vpc=vpc,
             security_group=mysg,
-            internet_facing=True, load_balancer_name= "myloadbalancer")
+            internet_facing=True, 
+            load_balancer_name= "myloadbalancer",
+            vpc_subnets=ec2.SubnetSelection(availability_zones=["ap-south-1a", "ap-south-1b"], one_per_az=True)
+            
+            )
 
     # creating Target Group1
-        mytarget_group = elbv2.ApplicationTargetGroup(self, "targetGroup", protocol=elbv2.ApplicationProtocol.HTTP, port=80, target_group_name="mytarget-group", vpc=vpc, health_check=elbv2.HealthCheck(enabled=True, healthy_http_codes="200", path="/", port="80"))
+        mytarget_group = elbv2.ApplicationTargetGroup(self, "targetGroup", target_group_name="mytarget-group", protocol=elbv2.ApplicationProtocol.HTTP, target_type=elbv2.TargetType.INSTANCE, port=80, vpc=vpc, health_check=elbv2.HealthCheck(enabled=True, healthy_http_codes="200", path="/", port="80"))
 
     # creating target group 2
-        mytarget_group2 = elbv2.ApplicationTargetGroup(self, "targetGroup2", protocol=elbv2.ApplicationProtocol.HTTP, port=80, target_group_name="mytarget-group2", vpc=vpc, health_check=elbv2.HealthCheck(enabled=True, healthy_http_codes="200", path="/home", port="80"))
+        mytarget_group2 = elbv2.ApplicationTargetGroup(self, "targetGroup2", target_group_name="mytarget-group2", protocol=elbv2.ApplicationProtocol.HTTP, target_type=elbv2.TargetType.INSTANCE, port=80, vpc=vpc, health_check=elbv2.HealthCheck(enabled=True, healthy_http_codes="200", path="/home", port="80"))
 
     # adding a loadbalancer default listener
         listener = lb.add_listener("listener", port=80, default_target_groups=[mytarget_group])
