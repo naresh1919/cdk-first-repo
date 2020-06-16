@@ -1,23 +1,27 @@
 #!/usr/bin/env python3
 import base64
+import json
 from aws_cdk import (
     aws_ec2 as ec2,
     aws_elasticloadbalancingv2 as elbv2,
     core,
 )
-vpc_id = 'vpc-0c97bc64'
-security_grp = 'sg-0cd76560'
+
+
+f = open('testing_only/test.json',)
+data = json.load(f)
 version = "versiontwo"
 class TestingOnlyStack(core.Stack):
 
     def __init__(self, scope: core.Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
-
+        
+    #arn = elbv2.ApplicationListener.from_application_listener_attributes(self, "test", listener_arn=) 
     # importing security Group from exesting resources
-        mysg = ec2.SecurityGroup.from_security_group_id(self, "sg", security_group_id=security_grp)
+        mysg = ec2.SecurityGroup.from_security_group_id(self, "sg", security_group_id=data['security_grp'])
 
     # importting Vpc from exesting resources
-        vpc = ec2.Vpc.from_lookup(self, "VPC", vpc_id=vpc_id)
+        vpc = ec2.Vpc.from_lookup(self, "VPC", vpc_id=data['vpc_id'])
 
     # creating loadbalancer woth exesting resources
         lb = elbv2.ApplicationLoadBalancer(

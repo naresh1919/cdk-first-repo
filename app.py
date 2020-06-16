@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 
 from aws_cdk import core
+import json
 
 from testing_only.testing_only_stack import TestingOnlyStack
+f = open('testing_only/test.json',)
+data = json.load(f)
 
-env_cn = core.Environment(account="521124255972", region="ap-south-1")
+env_cn = core.Environment(account=data['account'], region=data['region'])
 
 
 app = core.App()
